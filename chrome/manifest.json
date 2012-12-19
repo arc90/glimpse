@@ -1,0 +1,29 @@
+{
+    "name": "Glimpse",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Take a quick glimpse at the mobile view of any Web page.",
+    "icons": {
+        "16": "images/extension-icons/16.png",
+        "32": "images/extension-icons/32.png",
+        "48": "images/extension-icons/48.png",
+        "96": "images/extension-icons/96.png",
+        "128": "images/extension-icons/128.png"
+    },
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>",
+        "storage",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "browser_action": {
+        "default_popup": "main.html",
+        "default_title": "Take a quick glimpse at the mobile view of any Web page.",
+        "default_icon": {
+            "19": "images/extension-icons/19.png",
+            "38": "images/extension-icons/38.png"
+        }
+    }
+}
