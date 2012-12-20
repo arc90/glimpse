@@ -28,19 +28,19 @@ state =
 
 
 save_state = ->
-    state_to_save =
+    data =
         urls: (tab.content.querySelector('iframe').src for tab in state.tabs[1..])
-        active_url: null
-
-    chrome.storage.sync.set state_to_save
+        active_tab_index: state.tabs.indexOf(state.active_tab)
+    console.log 'Saving state:', data
+    chrome.storage.sync.set data
 
 
 load_state = ->
     chrome.storage.sync.get null, (data) ->
-        if data and data.urls
-            create_new_tab url for url in data.urls
-            # TEMP TEMP TEMP
-            show_tab state.tabs[1]
+        console.log 'Loaded state:', data
+        if data
+            if data.urls then create_new_tab url for url in data.urls
+            if data.active_tab_index then show_tab state.tabs[data.active_tab_index]
 
 
 hide_tab = (tab) ->
