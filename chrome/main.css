@@ -12,6 +12,7 @@ html, body, section, nav, ul, iframe {
 nav {
     /* in the zero-state, there are no tabs visible; we just show the "new tab" view */
     display: none;
+    border-top: 2px solid #eeeeee;
 }
 
 nav ul {
@@ -40,19 +41,27 @@ input#url {
 }
 
 .tab {
-    margin: 0 5px;
+    margin: 0px 5px 5px 5px;
     border: 1px solid silver;
 }
 
 .tab.active {
-    border-top: none;
+    border: 2px solid #eeeeee;
+    background-color: #eeeeee;
+}
+
+.tab.inactive {
+    background-color: silver;
 }
 
 .tab button {
     cursor: pointer;
     cursor: hand;
     background-color: transparent;
-    text-decoration: underline;
+    border: none;
+    shadow: none;
+    font-size: 60%;
+    font-weight: normal;
 }
 
 section#new {
