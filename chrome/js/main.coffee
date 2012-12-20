@@ -19,10 +19,28 @@ chrome.webRequest.onBeforeSendHeaders.addListener callback, filter, opt_extraInf
 
 ## state ##
 
-tabs = []
+state =
+    tabs: []
+    active_tab: null
 
 
 ## functions ##
+
+
+save_state = ->
+    state_to_save =
+        urls: (tab.content.querySelector('iframe').src for tab in state.tabs[1..])
+        active_url: null
+
+    chrome.storage.sync.set state_to_save
+
+
+load_state = ->
+    chrome.storage.sync.get null, (data) ->
+        if data and data.urls
+            create_new_tab url for url in data.urls
+            # TEMP TEMP TEMP
+            show_tab state.tabs[1]
 
 
 hide_tab = (tab) ->
@@ -32,7 +50,7 @@ hide_tab = (tab) ->
 
 show_tab = (tab_to_show) ->
     # first hide all the other tabs
-    hide_tab tab for tab in tabs when tab isnt tab_to_show
+    hide_tab tab for tab in state.tabs when tab isnt tab_to_show
 
     # now show the specified tab
     tab_to_show.content.style.display = 'block'
@@ -42,6 +60,10 @@ show_tab = (tab_to_show) ->
 
     # show the tab bar
     d.getElementById('tab-bar').style.display = 'block'
+
+    state.active_tab = tab_to_show
+
+    save_state()
 
 
 # returns a tab, which is a object containing 2 properties: content and tab, which are both DOM elements
@@ -66,7 +88,7 @@ create_new_tab = (url) ->
         content: sec
         tab: li
 
-    tabs.push tab
+    state.tabs.push tab
 
     button.addEventListener 'click', -> show_tab tab
 
@@ -77,14 +99,15 @@ process_url = (url) ->
     if url.indexOf('http') != 0 then 'http://' + url else url
 
 
-open_url = (event) ->
+open_clicked = (event) ->
     url = d.getElementById('url').value
     show_tab create_new_tab process_url url
+    save_state()
 
 
 new_tab_clicked = (event) ->
     d.getElementById('url').value = ''
-    show_tab tabs[0]
+    show_tab state.tabs[0]
     d.getElementById('url').focus()
 
 
@@ -94,12 +117,14 @@ init_ui = (event) ->
         content: d.getElementById 'new'
         tab: d.getElementById 'plus-tab'
 
-    tabs.push new_tab
+    state.tabs.push new_tab
 
     # set up event listeners on default elements
-    d.getElementById('open').addEventListener 'click', open_url
-    d.getElementById('url').addEventListener 'keyup', (event) -> if event.keyCode == 13 then open_url()
+    d.getElementById('open').addEventListener 'click', open_clicked
+    d.getElementById('url').addEventListener 'keyup', (event) -> if event.keyCode == 13 then open_clicked()
     d.getElementById('plus-button').addEventListener 'click', new_tab_clicked
+
+    load_state()
 
 
 ## add a listener to call init_ui once the DOM content is loaded ##
