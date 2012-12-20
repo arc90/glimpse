@@ -38,9 +38,10 @@ save_state = ->
 load_state = ->
     chrome.storage.sync.get null, (data) ->
         console.log 'Loaded state:', data
-        if data
-            if data.urls then create_new_tab url for url in data.urls
-            if data.active_tab_index then show_tab state.tabs[data.active_tab_index]
+        if data && data.urls
+            create_new_tab url for url in data.urls
+            if data.active_tab_index and state.tabs[data.active_tab_index]
+                show_tab state.tabs[data.active_tab_index]
 
 
 hide_tab = (tab) ->
