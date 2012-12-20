@@ -82,6 +82,12 @@ open_url = (event) ->
     show_tab create_new_tab process_url url
 
 
+new_tab_clicked = (event) ->
+    d.getElementById('url').value = ''
+    show_tab tabs[0]
+    d.getElementById('url').focus()
+
+
 init_ui = (event) ->
     # add the “new” tab to the tabs array
     new_tab =
@@ -93,7 +99,7 @@ init_ui = (event) ->
     # set up event listeners on default elements
     d.getElementById('open').addEventListener 'click', open_url
     d.getElementById('url').addEventListener 'keyup', (event) -> if event.keyCode == 13 then open_url()
-    d.getElementById('plus-button').addEventListener 'click', -> show_tab new_tab
+    d.getElementById('plus-button').addEventListener 'click', new_tab_clicked
 
 
 ## add a listener to call init_ui once the DOM content is loaded ##
