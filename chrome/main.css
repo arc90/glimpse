@@ -1,9 +1,12 @@
 html, body {
     width: 320px;
     height: 480px;
+    font-family: "Helvetica";
+}
+
+html, body, section, nav, ul, iframe {
     margin: 0;
     padding: 0;
-    font-family: "Helvetica";
 }
 
 nav {
@@ -11,8 +14,12 @@ nav {
     display: none;
 }
 
-section#new {
-    text-align: center;
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
 }
 
 section#url-controls {
@@ -30,6 +37,28 @@ input#url {
     top: 0px;
     width: 100%;
     height: 100%;
+}
+
+.tab {
+    margin: 0 5px;
+    border: 1px solid silver;
+}
+
+.tab.active {
+    border-top: none;
+}
+
+.tab button {
+    cursor: pointer;
+    cursor: hand;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+section#new {
+    height: 480px;
+    display: block;
+    text-align: center;
 }
 
 iframe {

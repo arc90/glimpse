@@ -9,7 +9,7 @@
     <body>
         <section id="tab-contents">
             
-            <section id="new">
+            <section id="new" class="tab-content">
                 <header>
                     <h1>Glimpse</h1>
                 </header>
@@ -17,16 +17,16 @@
                 <section>Enter a URL:</section>
 
                 <section id="url-controls">
-                    <input type="url" name="url" id="url" required="true" value="engadget.com"/>
+                    <input type="url" name="url" id="url" required="true" autofocus value="engadget.com"/>
                     <button id="open">Open</button>
                 </section>
             </section>
 
         </section>
 
-        <nav>
+        <nav id="tab-bar">
             <ul id="tabs">
-                <li><button id="plus">+</button></li>
+                <li class="tab inactive" id="plus-tab"><button id="plus-button">+</button></li>
             </ul>
         </nav>
     </body>
