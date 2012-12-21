@@ -81,7 +81,7 @@ create_new_tab = (url) ->
     li = d.createElement 'li'
     li.className = 'tab active'
     button = d.createElement 'button'
-    button.appendChild d.createTextNode url.replace /https?:\/\/(?:www\.)?(.*?)\.(?:com|au\.uk|co\.in)\/?/, '$1'
+    button.appendChild d.createTextNode url.replace /https?:\/\/(?:www|mobile|m\.)?(.*?)\.(?:com|gov|au\.uk|co\.in)\/?/, '$1'
     li.appendChild button
     d.getElementById('tabs').insertBefore li, d.getElementById 'plus-tab'
 
