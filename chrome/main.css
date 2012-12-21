@@ -75,3 +75,9 @@ iframe {
     height: 100%;
     border: none;
 }
+
+footer {
+    margin-top: 10em;
+    font-size: 70%;
+}
+
