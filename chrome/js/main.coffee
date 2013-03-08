@@ -3,7 +3,15 @@
 d = document
 
 
-## some Chrome voodoo to set up the User-Agent Header override ##
+## state ##
+
+state =
+    tabs: []
+    urls: []
+    active_tab: null
+
+
+## modify HTTP requests and responses ##
 
 IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
 filter = {urls: ['<all_urls>'], types: ['sub_frame']}
@@ -26,28 +34,24 @@ chrome.webRequest.onHeadersReceived.addListener response_callback, filter, ['blo
 
 
 
-## state ##
-
-state =
-    tabs: []
-    active_tab: null
-
-
 ## functions ##
 
 
 save_state = ->
     data =
-        urls: (tab.content.querySelector('iframe').src for tab in state.tabs[1..])
-        active_tab_index: state.tabs.indexOf(state.active_tab)
+        urls: state.urls
+        active_tab_index: get_active_tab_index()
     console.log 'Saving state:', data
     chrome.storage.sync.set data
+
+
+get_active_tab_index = () -> state.tabs.indexOf state.active_tab
 
 
 load_state = ->
     chrome.storage.sync.get null, (data) ->
         console.log 'Loaded state:', data
-        if data && data.urls
+        if data and data.urls
             create_new_tab url for url in data.urls
             if data.active_tab_index and state.tabs[data.active_tab_index]
                 show_tab state.tabs[data.active_tab_index]
@@ -99,6 +103,7 @@ create_new_tab = (url) ->
         tab: li
 
     state.tabs.push tab
+    state.urls.push url
 
     button.addEventListener 'click', -> show_tab tab
 
@@ -121,6 +126,10 @@ new_tab_clicked = (event) ->
     d.getElementById('url').focus()
 
 
+# CoffeeScript syntax works better if the callback is the last arg
+delay = (ms, func) -> setTimeout func, ms
+
+
 init_ui = (event) ->
     # add the “new” tab to the tabs array
     new_tab =
@@ -135,6 +144,18 @@ init_ui = (event) ->
     d.getElementById('plus-button').addEventListener 'click', new_tab_clicked
 
     load_state()
+
+    # There’s a delay on this, unlike the other Chrome event listeners, because we don’t want to know about these events
+    # when the popup first opens and load_state opens a bunch of tabs
+    on_completed_callback = (details) -> update_current_tab_url details.url
+    delay 1000, -> chrome.webRequest.onCompleted.addListener on_completed_callback, filter
+
+
+update_current_tab_url = (url) ->
+    # need to subtract one from the active tab index because the first tab is always the “new tab” tab
+    url_index = get_active_tab_index() - 1
+    state.urls[url_index] = url
+    save_state()
 
 
 ## add a listener to call init_ui once the DOM content is loaded ##
