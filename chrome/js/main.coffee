@@ -9,7 +9,8 @@ IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) Apple
 filter = {urls: ['<all_urls>'], types: ['sub_frame']}
 
 request_callback = (details) ->
-    header.value = IPHONE_USER_AGENT for header in details.requestHeaders when header.name == 'User-Agent'
+    user_agent_header = (header for header in details.requestHeaders when header.name == 'User-Agent')[0]
+    user_agent_header.value = IPHONE_USER_AGENT
     requestHeaders: details.requestHeaders
 
 chrome.webRequest.onBeforeSendHeaders.addListener request_callback, filter, ['blocking', 'requestHeaders']
