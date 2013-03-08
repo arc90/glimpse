@@ -6,15 +6,23 @@ d = document
 ## some Chrome voodoo to set up the User-Agent Header override ##
 
 IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
+filter = {urls: ['<all_urls>'], types: ['sub_frame']}
 
-callback = (details) ->
+request_callback = (details) ->
     header.value = IPHONE_USER_AGENT for header in details.requestHeaders when header.name == 'User-Agent'
     requestHeaders: details.requestHeaders
 
-filter = {urls: ['<all_urls>'], types: ['sub_frame']}
-opt_extraInfoSpec = ['blocking', 'requestHeaders']
+chrome.webRequest.onBeforeSendHeaders.addListener request_callback, filter, ['blocking', 'requestHeaders']
 
-chrome.webRequest.onBeforeSendHeaders.addListener callback, filter, opt_extraInfoSpec
+
+response_callback = (details) ->
+    # remove the response header 'x-frame-options' so as to enable more sites to load in the iframe
+    responseHeaders: header for header in details.responseHeaders when header.name.toLowerCase() isnt 'x-frame-options'
+
+chrome.webRequest.onHeadersReceived.addListener response_callback, filter, ['blocking', 'responseHeaders']
+
+
+
 
 
 ## state ##
