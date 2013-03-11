@@ -26,7 +26,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener request_callback, filter, ['bl
 
 response_callback = (details) ->
     # remove the response header 'x-frame-options' so as to enable more sites to load in the iframe
-    responseHeaders: header for header in details.responseHeaders when header.name.toLowerCase() isnt 'x-frame-options'
+    { responseHeaders : header for header in details.responseHeaders when header.name.toLowerCase() isnt 'x-frame-options' }
 
 chrome.webRequest.onHeadersReceived.addListener response_callback, filter, ['blocking', 'responseHeaders']
 
