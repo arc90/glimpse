@@ -45,7 +45,10 @@ save_state = ->
     chrome.storage.sync.set data
 
 
-get_active_tab_index = () -> state.tabs.indexOf state.active_tab
+get_tab_index = (tab) -> state.tabs.indexOf tab
+
+
+get_active_tab_index = -> get_tab_index state.active_tab
 
 
 load_state = ->
@@ -93,9 +96,16 @@ create_new_tab = (url) ->
 
     li = d.createElement 'li'
     li.className = 'tab active'
-    button = d.createElement 'button'
-    button.appendChild d.createTextNode url.replace /https?:\/\/(?:www|mobile|m\.)?(.*?)\.(?:com|gov|au\.uk|co\.in)\/?/, '$1'
-    li.appendChild button
+
+    title_button = d.createElement 'button'
+    title_button.appendChild d.createTextNode url.replace /https?:\/\/(?:www|mobile|m\.)?(.*?)\.(?:com|gov|au\.uk|co\.in)\/?/, '$1'
+    li.appendChild title_button
+
+    close_button = d.createElement 'button'
+    close_button.className = 'close'
+    close_button.appendChild d.createTextNode '×'
+    li.appendChild close_button
+
     d.getElementById('tabs').insertBefore li, d.getElementById 'plus-tab'
 
     tab =
@@ -105,13 +115,33 @@ create_new_tab = (url) ->
     state.tabs.push tab
     state.urls.push url
 
-    button.addEventListener 'click', -> show_tab tab
+    li.addEventListener 'click', -> show_tab tab
+
+    close_button.addEventListener 'click', (event) ->
+        remove_tab tab
+        event.stopPropagation()
 
     return tab
 
 
+remove_tab = (tab_to_remove) ->
+    elem.parentNode.removeChild elem for elem in [tab_to_remove.content, tab_to_remove.tab]
+    state.tabs = (tab for tab in state.tabs when tab.tab isnt tab_to_remove.tab)
+    state.urls.splice get_tab_url_index(tab), 1
+    # show_tab will save the state
+    show_tab state.tabs[0]
+
+
+get_tab_url_index = (tab) ->
+    # need to subtract one from the active tab index because the first tab is always the “new tab” tab
+    get_tab_index(tab) - 1
+
+
 process_url = (url) ->
-    if url.indexOf('http') != 0 then 'http://' + url else url
+    if url.trim().indexOf('http') isnt 0
+        'http://' + url.trim()
+    else
+        url.trim()
 
 
 open_clicked = (event) ->
@@ -152,8 +182,7 @@ init_ui = (event) ->
 
 
 update_current_tab_url = (url) ->
-    # need to subtract one from the active tab index because the first tab is always the “new tab” tab
-    url_index = get_active_tab_index() - 1
+    url_index = get_tab_url_index(state.active_tab)
     state.urls[url_index] = url
     save_state()
 

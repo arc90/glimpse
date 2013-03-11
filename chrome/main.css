@@ -43,6 +43,8 @@ input#url {
 .tab {
     margin: 0px 5px 5px 5px;
     border: 1px solid silver;
+    cursor: pointer;
+    cursor: hand;
 }
 
 .tab.active {
@@ -62,6 +64,15 @@ input#url {
     shadow: none;
     font-size: 60%;
     font-weight: normal;
+}
+
+button.close {
+    margin: 0 5px 0 0;
+    padding: 0;
+}
+
+button.close:hover {
+    backgound-color: black;
 }
 
 section#new {
