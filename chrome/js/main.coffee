@@ -14,7 +14,10 @@ state =
 ## modify HTTP requests and responses ##
 
 IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
-filter = {urls: ['<all_urls>'], types: ['sub_frame']}
+
+filter =
+    urls: ['<all_urls>']
+    types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
 
 request_callback = (details) ->
     user_agent_header = (header for header in details.requestHeaders when header.name == 'User-Agent')[0]
@@ -178,7 +181,7 @@ init_ui = (event) ->
     # There’s a delay on this, unlike the other Chrome event listeners, because we don’t want to know about these events
     # when the popup first opens and load_state opens a bunch of tabs
     on_completed_callback = (details) -> update_current_tab_url details.url
-    delay 1000, -> chrome.webRequest.onCompleted.addListener on_completed_callback, filter
+    delay 1000, -> chrome.webRequest.onCompleted.addListener on_completed_callback, {urls: ['<all_urls>'], types: ['sub_frame']}
 
 
 update_current_tab_url = (url) ->
