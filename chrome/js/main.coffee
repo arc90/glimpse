@@ -122,6 +122,8 @@ create_new_tab = (url) ->
 
     close_button.addEventListener 'click', (event) ->
         remove_tab tab
+        # stop propagation because the button is within an li elem, and the li elem has a click listener for switching
+        # to that tab (and the reason for that is to provide a large click target to the user)
         event.stopPropagation()
 
     return tab
