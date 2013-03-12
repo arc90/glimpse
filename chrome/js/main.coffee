@@ -177,9 +177,12 @@ process_url = (url) ->
 
 
 open_clicked = (event) ->
-    url = process_url d.getElementById('url').value
+    url = d.getElementById('url')
 
-    matching_blacklist_tlds = (tld for tld in no_worky_tlds when string_contains_ignore_case(url, tld))
+    url_for_blacklist_checking = url.replace('http://', '').replace('https://', '').replace('www', '')
+
+    matching_blacklist_tlds = (tld for tld in no_worky_tlds when string_starts_with_ignore_case(url_for_blacklist_checking, tld))
+
     url_in_blacklist = matching_blacklist_tlds.length > 0
 
     if url_in_blacklist
@@ -187,11 +190,11 @@ open_clicked = (event) ->
         show_error_message "Sorry, #{matching_tld} is known to be incompatible with Glimpse."
         return
 
-    show_tab create_new_tab url
+    show_tab create_new_tab process_url url
     save_state()
 
 
-string_contains_ignore_case = (a, b) -> a.toLowerCase().indexOf(b.toLowerCase()) isnt -1
+string_starts_with_ignore_case = (a, b) -> a.toLowerCase().indexOf(b.toLowerCase()) is 0
 
 
 show_error_message = (message) ->
