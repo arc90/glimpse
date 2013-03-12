@@ -7,6 +7,18 @@ no_worky_tlds = ['gmail.com', 'twitter.com', 'facebook.com', 'googlemail.com', '
 
 
 
+## redirects ##
+
+# Some sites don’t show their “mobile” sites based on the user agent, but only if you navigate specifically to
+# m.tld.com or mobile.tld.com
+# We keep a list of a few of the big ones so we can “redirect” automatically for the user
+
+redirects =
+    'http://nytimes.com': 'http://mobile.nytimes.com'
+    'http://www.nytimes.com': 'http://mobile.nytimes.com'
+
+
+
 ## helpful aliases ##
 
 d = document
@@ -152,10 +164,16 @@ get_tab_url_index = (tab) ->
 
 
 process_url = (url) ->
-    if url.trim().indexOf('http') isnt 0
-        'http://' + url.trim().toLowerCase()
+    cleaned_url =
+        if url.trim().indexOf('http') isnt 0
+            'http://' + url.trim().toLowerCase()
+        else
+            url.trim().toLowerCase()
+
+    if cleaned_url of redirects
+        redirects[cleaned_url]
     else
-        url.trim().toLowerCase()
+        cleaned_url
 
 
 open_clicked = (event) ->
