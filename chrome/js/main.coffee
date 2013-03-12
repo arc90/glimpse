@@ -176,8 +176,8 @@ process_url = (url) ->
         cleaned_url
 
 
-open_clicked = (event) ->
-    url = d.getElementById('url')
+open_clicked = () ->
+    url = d.getElementById('url').value
 
     url_for_blacklist_checking = url.replace('http://', '').replace('https://', '').replace('www', '')
 
@@ -190,6 +190,10 @@ open_clicked = (event) ->
         show_error_message "Sorry, #{matching_tld} is known to be incompatible with Glimpse."
         return
 
+    open_new_tab url
+
+
+open_new_tab = (url) ->
     show_tab create_new_tab process_url url
     save_state()
 
@@ -233,6 +237,13 @@ init_ui = (event) ->
         if event.keyCode == 13 then open_clicked()
 
     d.getElementById('plus-button').addEventListener 'click', new_tab_clicked
+
+    add_load_handler = (elem) ->
+        elem.addEventListener 'click', (event) ->
+            event.preventDefault()
+            open_new_tab this.getAttribute 'href'
+
+    add_load_handler example_anchor_elem for example_anchor_elem in document.getElementsByClassName 'example'
 
     load_state()
 
