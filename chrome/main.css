@@ -92,3 +92,6 @@ footer {
     font-size: 70%;
 }
 
+#error_message {
+    color: red;
+}

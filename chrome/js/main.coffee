@@ -1,6 +1,16 @@
+## blacklist ##
+
+# Many sites just don’t work with Glimpse, for various reasons
+# We keep a list of a few of the big ones which are known not to work, so we can tell the user and let them abort
+
+no_worky_tlds = ['gmail.com', 'twitter.com', 'facebook.com', 'googlemail.com', 'google.com']
+
+
+
 ## helpful aliases ##
 
 d = document
+
 
 
 ## state ##
@@ -9,6 +19,7 @@ state =
     tabs: []
     urls: []
     active_tab: null
+
 
 
 ## modify HTTP requests and responses ##
@@ -32,8 +43,6 @@ response_callback = (details) ->
     responseHeaders: header for header in details.responseHeaders when header.name.toLowerCase() isnt 'x-frame-options'
 
 chrome.webRequest.onHeadersReceived.addListener response_callback, filter, ['blocking', 'responseHeaders']
-
-
 
 
 
@@ -144,15 +153,37 @@ get_tab_url_index = (tab) ->
 
 process_url = (url) ->
     if url.trim().indexOf('http') isnt 0
-        'http://' + url.trim()
+        'http://' + url.trim().toLowerCase()
     else
-        url.trim()
+        url.trim().toLowerCase()
 
 
 open_clicked = (event) ->
-    url = d.getElementById('url').value
-    show_tab create_new_tab process_url url
+    url = process_url d.getElementById('url').value
+
+    matching_blacklist_tlds = (tld for tld in no_worky_tlds when string_contains_ignore_case(url, tld))
+    url_in_blacklist = matching_blacklist_tlds.length > 0
+
+    if url_in_blacklist
+        matching_tld = matching_blacklist_tlds[0]
+        show_error_message "Sorry, #{matching_tld} is known to be incompatible with Glimpse."
+        return
+
+    show_tab create_new_tab url
     save_state()
+
+
+string_contains_ignore_case = (a, b) -> a.toLowerCase().indexOf(b.toLowerCase()) isnt -1
+
+
+show_error_message = (message) ->
+    msg_elem = d.getElementById 'error_message'
+    msg_elem.appendChild d.createTextNode message
+
+
+clear_error_message = ->
+    msg_elem = d.getElementById 'error_message'
+    msg_elem.removeChild child for child in msg_elem.childNodes
 
 
 new_tab_clicked = (event) ->
@@ -175,7 +206,11 @@ init_ui = (event) ->
 
     # set up event listeners on default elements
     d.getElementById('open').addEventListener 'click', open_clicked
-    d.getElementById('url').addEventListener 'keyup', (event) -> if event.keyCode == 13 then open_clicked()
+
+    d.getElementById('url').addEventListener 'keyup', (event) ->
+        clear_error_message()
+        if event.keyCode == 13 then open_clicked()
+
     d.getElementById('plus-button').addEventListener 'click', new_tab_clicked
 
     load_state()
@@ -192,7 +227,7 @@ update_current_tab_url = (url) ->
     save_state()
 
 
+
 ## add a listener to call init_ui once the DOM content is loaded ##
 
 d.addEventListener 'DOMContentLoaded', init_ui
-
