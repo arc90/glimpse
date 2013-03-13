@@ -4,7 +4,7 @@ Glimpse is a Google Chrome extension which lets you take a quick glimpse at the 
 
 ## Installing from Store
 
-The easiest way to install Glimpse is to do so from the Chrome Web Store.
+The easiest way to install Glimpse is to do so from [the Chrome Web Store](https://chrome.google.com/webstore/detail/glimpse/mlkphfapecjniljjgjbcbopfgcjdmche).
 
 ## Installing from Source
 
