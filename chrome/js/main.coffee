@@ -121,8 +121,14 @@ create_new_tab = (url) ->
     li = d.createElement 'li'
     li.className = 'tab active'
 
+    host = parseUri(url).host
+    # remove the TLD from the host
+    title = host.replace /\.(com|gov|net|org|au|uk|co|in|co.il|me|go|ly)$/gi, ''
+    # remove the `m` or `mobile` prefix from the title
+    title = title.replace /^(m|mobile)\./, ''
+
     title_button = d.createElement 'button'
-    title_button.appendChild d.createTextNode url.replace /https?:\/\/(?:www|mobile|m\.)?(.*?)\.(?:com|gov|au\.uk|co\.in)\/?/, '$1'
+    title_button.appendChild d.createTextNode title
     li.appendChild title_button
 
     close_button = d.createElement 'button'
