@@ -98,7 +98,7 @@ input#url {
     height: 100%;
     padding: 0;
     margin: 0;
-        box-shadow: 0 0 4px #333;
+    box-shadow: 0 0 4px #333;
 }
 
 .tab {
@@ -126,7 +126,7 @@ input#url {
     background-color: transparent;
     border: none;
     shadow: none;
-    font-size: 60%;
+    font-size: 12px;
     font-weight: normal;
     color: #daf2be;
 }
