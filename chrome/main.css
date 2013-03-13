@@ -2,7 +2,9 @@ html, body {
     width: 320px;
     height: 480px;
     font-family: "Helvetica Neue", "Helvetica", arial, sans-serif;
-    background-color: #daf2be;
+    background-color: #fff;
+    box-shadow: 0 0 20px #e6f4d6 inset;
+    display: block;
 }
 
 html, body, section, nav, ul, iframe {
@@ -36,6 +38,7 @@ nav {
     display: none;
     margin: 0;
     padding: 0;
+    background-color: #f4ffe7;
 }
 
 nav ul {
@@ -155,6 +158,10 @@ footer a {
     color: #447c00;
 }
 
+footer p {
+    margin: 2px 0;
+}
+
 #error_message {
     color: red;
 }
@@ -166,7 +173,7 @@ button#open {
     padding: 6px 12px;
     background: -webkit-gradient(
         linear, left top, left bottom, 
-        from(#8bd92b),
+        from(#658b39),
         to(#3a5d10));
     -webkit-border-radius: 6px;
     border-radius: 6px;
