@@ -1,3 +1,9 @@
+###
+Copyright © 2013 Arc90, Inc.
+See the file `license` for the license for this file.
+###
+
+
 ## blacklist ##
 
 # Many sites just don’t work with Glimpse, for various reasons
