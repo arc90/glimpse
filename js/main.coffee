@@ -242,8 +242,6 @@ init_ui = (event) ->
     state.tabs.push new_tab
 
     # set up event listeners on default elements
-    d.getElementById('open').addEventListener 'click', open_clicked
-
     d.getElementById('url').addEventListener 'keyup', (event) ->
         clear_error_message()
         if event.keyCode == 13 then open_clicked()
