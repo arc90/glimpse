@@ -165,6 +165,11 @@ footer p {
     margin: 2px 0;
 }
 
+footer img {
+    display: block;
+    margin: 20px auto 10px auto;
+}
+
 #error_message {
     color: red;
 }
