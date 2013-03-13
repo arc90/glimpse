@@ -168,26 +168,3 @@ footer p {
 #error_message {
     color: red;
 }
-
-button#open {
-    margin: 5px 0 0 0;
-    font-size: 14px;
-    color: #ffffff;
-    padding: 6px 12px;
-    background: -webkit-gradient(
-        linear, left top, left bottom, 
-        from(#658b39),
-        to(#3a5d10));
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    border: 1px solid #284505;
-    -webkit-box-shadow:
-        0px 1px 3px rgba(33,56,5,0.5),
-        inset 0px 0px 1px rgba(255,255,255,0.5);
-    box-shadow:
-        0px 1px 3px rgba(33,56,5,0.5),
-        inset 0px 0px 1px rgba(255,255,255,0.5);
-    text-shadow:
-        0px -1px 0px rgba(000,000,000,0.7),
-        0px 1px 0px rgba(255,255,255,0.3);
-}
