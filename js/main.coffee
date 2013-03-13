@@ -188,7 +188,7 @@ process_url = (url) ->
         cleaned_url
 
 
-open_clicked = () ->
+return_pressed = () ->
     url = d.getElementById('url').value
 
     url_for_blacklist_checking = url.replace('http://', '').replace('https://', '').replace('www', '')
@@ -244,7 +244,7 @@ init_ui = (event) ->
     # set up event listeners on default elements
     d.getElementById('url').addEventListener 'keyup', (event) ->
         clear_error_message()
-        if event.keyCode == 13 then open_clicked()
+        if event.keyCode == 13 then return_pressed()
 
     d.getElementById('plus-button').addEventListener 'click', new_tab_clicked
 
