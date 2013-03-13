@@ -191,7 +191,7 @@ process_url = (url) ->
 return_pressed = () ->
     url = d.getElementById('url').value
 
-    url_for_blacklist_checking = url.replace('http://', '').replace('https://', '').replace('www', '')
+    url_for_blacklist_checking = url.replace('http://', '').replace('https://', '').replace('www.', '')
 
     matching_blacklist_tlds = (tld for tld in no_worky_tlds when string_starts_with_ignore_case(url_for_blacklist_checking, tld))
 
