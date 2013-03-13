@@ -1,6 +1,10 @@
 /** Copyright © 2013 Arc90, Inc.
     See the file `license` for the license for this file. **/
 
+html {
+    font-size: 14px;
+}
+
 html, body {
     width: 320px;
     height: 480px;
@@ -23,7 +27,7 @@ header h1 {
     font-family: 'Myriad Web', "Helvetica Neue", "Helvetica", arial, sans-serif;
     color: #3a5d10;
     margin: 10px 0;
-    font-size: 1.4rem;
+    font-size: 22px;
 }
 
 #tab-contents {
@@ -56,11 +60,11 @@ nav ul li {
 
 #suggestions h1 {
     margin: 5px 0;
-    font-size: 1em;
+    font-size: 18px;
 }
 
 #suggestions ul li {
-    font-size: 0.8em;
+    font-size: 16px;
     padding: 2px 0;
 }
 
@@ -81,7 +85,7 @@ input#url {
     width: 90%;
     margin: 5px auto;
     padding: 5px;
-    font-size: 1em;
+    font-size: 18px;
     color: #666;
 }
 
@@ -152,7 +156,7 @@ iframe {
 
 footer {
     margin-top: 1em;
-    font-size: 0.7em;
+    font-size:  12px;
     color: #4f7324;
 }
 
