@@ -9,7 +9,7 @@ See the file `license` for the license for this file.
 # Many sites just don’t work with Glimpse, for various reasons
 # We keep a list of a few of the big ones which are known not to work, so we can tell the user and let them abort
 
-no_worky_tlds = ['gmail.com', 'twitter.com', 'facebook.com', 'googlemail.com', 'google.com']
+no_worky_tlds = ['gmail.com', 'twitter.com', 'facebook.com', 'googlemail.com', 'google.com', 'github.com']
 
 
 
